@@ -6,7 +6,7 @@ import {
 import React from "react";
 import Calendar from "./Calendar";
 
-export default function Header({currentMonth,setCurrentMonth}) {
+export default function Header({currentMonth,setCurrentMonth,selectedDate,setSelectedDate}) {
     const currentDate = new Date();
     const day = currentDate.getDate();
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -65,12 +65,16 @@ export default function Header({currentMonth,setCurrentMonth}) {
                     onClick={onOpen}
                     position={"relative"}
                 >
-                    Febuary 14, 2024
+                    {`${selectedDate.format('MMMM D, YYYY')}`}
                     <chakra.span ml={2}><TriangleDownIcon w={3} h={3} /></chakra.span>
                 </Text>
             </Box>
             {/* it is the calendar showing in a modal  */}
-<Calendar isOpen={isOpen} onClose={onClose} currentMonth={currentMonth} setCurrentMonth={setCurrentMonth}/>
+<Calendar isOpen={isOpen} onClose={onClose} currentMonth={currentMonth} 
+selectedDate={selectedDate}
+setCurrentMonth={setCurrentMonth}
+setSelectedDate={setSelectedDate}
+/>
 
         </Box>
 

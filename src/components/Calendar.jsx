@@ -13,7 +13,13 @@ import dayjs from "dayjs";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { getMonth } from "../month";
 
-export default function Calendar({isOpen,onClose,currentMonth,setCurrentMonth}){
+export default function Calendar({isOpen,
+    onClose,
+    currentMonth,
+    setCurrentMonth,
+    selectedDate,
+    setSelectedDate
+}){
     const dayMatrix=currentMonth.dayMatrix
     const today = dayjs();
 
@@ -26,11 +32,15 @@ export default function Calendar({isOpen,onClose,currentMonth,setCurrentMonth}){
     }
 
         //function to get previous Month Calendar 
-
     function prvMonth(){
         if(currentMonth.month==0)
         return
         setCurrentMonth(getMonth(currentMonth.month-1))
+    }
+
+    //function to select different date
+    function changeDate(day){
+        setSelectedDate(day)
     }
 
     return (
@@ -83,8 +93,11 @@ export default function Calendar({isOpen,onClose,currentMonth,setCurrentMonth}){
                         {week.map((day, dayIndex) => (
                             <chakra.td key={dayIndex} fontSize={12} textAlign="center" p={2}>
                                 <Box  cursor={'pointer'} w={7} h={7} borderRadius="50%" display="inline-block"
-                                    color={day.month() === currentMonth.month ? (day.isSame(today, 'day') ? "blue" : "black") : "gray.400"}
-                                    >
+                                    color={day.month() === currentMonth.month ? (day.isSame(today, 'day') ? "blue" : (day.isSame(selectedDate, 'day') ? "red" : "black")) : "gray.400"}
+                                   onClick={()=>{
+                                    changeDate(day)
+                                   }}
+                                   >
                                     {day.format('D')}
                                 </Box>
                             </chakra.td>
