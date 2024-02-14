@@ -2,15 +2,17 @@
 import { useState } from 'react';
 import './App.css';
 import { getMonth } from './month';
+import Header from './components/Header';
+import { Box } from '@chakra-ui/react';
 
 function App() {
 const[currentMonth,setCurrentMonth]=useState(getMonth())
 
   return (
-    <div className="App">
-      <Header/>
+    <Box p={5}  className="App" >
+      <Header currentMonth={currentMonth}  setCurrentMonth={setCurrentMonth}/>
      
-    </div>
+    </Box>
   );
 }
 
