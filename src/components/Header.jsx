@@ -1,21 +1,57 @@
 import { ChevronLeftIcon, ChevronRightIcon, HamburgerIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import {
-    Box, Button, Text, chakra,
+    Box, Button, Heading, Text, chakra,
     useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
 import Calendar from "./Calendar";
+import { EventsUI } from "./EventsUI";
+import events from "../db";
+import dayjs from "dayjs";
 
 export default function Header({currentMonth,setCurrentMonth,selectedDate,setSelectedDate}) {
     const currentDate = new Date();
     const day = currentDate.getDate();
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    // functio to get todays all day (24hrs) events
+    const allDayEvnt = events.filter((el, ind) => {
+        if (el.type === "all-day" && selectedDate.isSame(dayjs(el.start), "day")) {
+          return el;
+        }
+      });
+
+    // below tow functions are to change date on click button
+    const increaseDate = () => {
+        if (selectedDate.month() === 11 && selectedDate.date() === 31) {
+            // If the next date is January 1st, return without updating the selected date
+            return;
+        }
+        setSelectedDate(selectedDate.add(1, 'day'));
+    };
+
+    const decreaseDate = () => {
+        if (selectedDate.month() === 0 && selectedDate.date() === 1) {
+            // If the next date is January 1st, return without updating the selected date
+            return;
+        }
+        setSelectedDate(selectedDate.subtract(1, 'day'));
+    };
+
     return (
-        <Box
+       <Box
+       position={'sticky'}
+            top={0}
+            zIndex={1}
+            bg={'white'}
+       >
+         <Box
             display={'flex'}
             alignItems={'center'}
             gap={20}
+            pb={5}
+            borderBottom={'1px solid gray'}
+            
         >
 
             {/* header part  */}
@@ -50,10 +86,12 @@ export default function Header({currentMonth,setCurrentMonth,selectedDate,setSel
                 {/* on clicking these below tow icon you can navitgate to previous day event and upcoming day event  */}
                 <ChevronLeftIcon w={7} h={7} borderRadius={50}
                     _hover={{ backgroundColor: 'gray.50' }}
+                    onClick={decreaseDate}
                 />
                 <ChevronRightIcon w={7} h={7}
                     borderRadius={50}
                     _hover={{ backgroundColor: 'gray.50' }}
+                    onClick={increaseDate}
                 />
 
                 {/* its showing todays day details and on clicking this you can view the month calandar */}
@@ -69,7 +107,7 @@ export default function Header({currentMonth,setCurrentMonth,selectedDate,setSel
                     <chakra.span ml={2}><TriangleDownIcon w={3} h={3} /></chakra.span>
                 </Text>
             </Box>
-            {/* it is the calendar showing in a modal  */}
+            {/* it is the calendar component showing in a modal  */}
 <Calendar isOpen={isOpen} onClose={onClose} currentMonth={currentMonth} 
 selectedDate={selectedDate}
 setCurrentMonth={setCurrentMonth}
@@ -77,6 +115,40 @@ setSelectedDate={setSelectedDate}
 />
 
         </Box>
+
+        {/* all day events of the day are showing here  */}
+        <Box borderBottom={'1px solid gray'} pb={5}>
+        <Box display={'flex'}
+        flexDir={'column'}
+        alignItems={'center'}
+        w={'100px'}
+        >
+        <Text color={'blue.400'}>{selectedDate.format('ddd')}</Text>
+          <Heading display={'flex'} justifyContent={'center'}
+           alignItems={'center'}
+           borderRadius={50}
+           fontSize={'lg'}
+            w={10} h={10} color={'white'}
+             bg={'blue'}>{selectedDate.format('D')}</Heading>
+        </Box>
+        <Box pl={5} pt={2} display={'flex'} gap={5}>
+        <Text >GMT+5:30</Text>
+        <Box flex={1} display={"grid"} gap={2}>
+            {
+                allDayEvnt.map((el,ind)=>{
+                    return <Box w={'full'}
+                    borderRadius={5}
+                    pl={5} pr={5}
+                    key={el.id} bg={el.holiday? "green" : "blue"}>
+                        <Text color={'white'}>{el.title}</Text>
+                    </Box>
+                })
+            }
+        </Box>
+        </Box>
+        
+        </Box>
+       </Box>
 
     )
 }

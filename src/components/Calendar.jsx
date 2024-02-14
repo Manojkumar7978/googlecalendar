@@ -25,14 +25,14 @@ export default function Calendar({isOpen,
 
     // function to get next Month Calendar 
     
-    function nextMonth(){
+    const  nextMonth=()=>{
         if(currentMonth.month==11)
         return
         setCurrentMonth(getMonth(currentMonth.month+1))
     }
 
         //function to get previous Month Calendar 
-    function prvMonth(){
+    const prvMonth=()=>{
         if(currentMonth.month==0)
         return
         setCurrentMonth(getMonth(currentMonth.month-1))
