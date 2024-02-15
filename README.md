@@ -8,6 +8,9 @@
 - Red Line for Current Time: A red line indicates the current time for better visualization.
 - Event Details Modal: Clicking on an event opens a modal displaying event details.
 
+## Deployed Link
+- https://googlecalendar-red.vercel.app/
+
 ## Screenshots
 - Basic UI and Allday Event
 ![Screenshot 1](screenshots/Screenshot%202024-02-15%20074319.png) 
