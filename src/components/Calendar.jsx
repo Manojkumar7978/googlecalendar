@@ -77,7 +77,7 @@ export default function Calendar({isOpen,
             </ModalHeader>
            
             <ModalBody paddingTop={3} pr={0} pl={0} pb={0}>
-            <chakra.table w={'100%'} borderWidth="1px" borderColor="gray.200">
+            <chakra.table w={'100%'} borderWidth="1px"  borderColor="gray.200">
             <thead>
                 <chakra.tr>
                     {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (

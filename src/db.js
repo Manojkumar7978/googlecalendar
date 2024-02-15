@@ -7,8 +7,8 @@ const events = [
       private: true,
       type: 'normal',
       holiday:false,
-      url:"www.xyz.in",
-      description:"ZYZ"
+      url:"https://us06web.zoom.us/j/82713583284",
+      description:"DSA Stand Up with IA | Placements Pathway Program"
     },
     {
       id: 2,
@@ -18,8 +18,8 @@ const events = [
       private: false,
       type: 'stretching',
       holiday:false,
-      url:"www.xyz.in",
-      description:"ZYZ"
+      url:"https://us06web.zoom.us/j/82713583284",
+      description:"Master your Technical Communication | Placements Session 2|"
     },
     {
       id: 3,

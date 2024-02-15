@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Divider, Flex, Heading, Text, chakra } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, Text, chakra, useDisclosure } from "@chakra-ui/react";
 import events from '../db';
 import dayjs from 'dayjs';
+import DetailsofEvent from './DetailsofEvent';
 
 // Define the time slots with a 15-minute gap
 const timeSlots = [];
@@ -43,6 +44,10 @@ const Event = ({ event, selectedDate }) => {
   }
   let startTimeString = start.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
   let endTimeString = end.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+
   return (
     <Box
       display={selectedDate.isSame(dayjs(start), "day") ? "block" : "none"}
@@ -55,12 +60,15 @@ const Event = ({ event, selectedDate }) => {
       borderRadius="md"
       boxShadow="md"
       p={2}
+      onClick={onOpen}
     >
      <Box display={'flex'} gap={5}>
      <Text fontSize={12}>{`${event.private ? "It's Private" : title}`}</Text>
       <Text fontSize={12}>{!event.private && `${startTimeString}-${endTimeString}`}</Text>
      </Box>
       <chakra.a fontSize={12} m={0} href={url}>{!event.private && url}</chakra.a>
+      <DetailsofEvent isOpen={isOpen} onClose={onClose} event={event}/>
+
     </Box>
   );
 };

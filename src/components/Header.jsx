@@ -51,12 +51,13 @@ export default function Header({currentMonth,setCurrentMonth,selectedDate,setSel
             gap={20}
             pb={5}
             borderBottom={'1px solid gray'}
+            p={5}
             
         >
 
             {/* header part  */}
             <Box
-                display={'flex'}
+                display={['none','none','flex']}
                 gap={5}
                 justifyContent={'left'}
                 alignItems={'center'}
@@ -96,7 +97,7 @@ export default function Header({currentMonth,setCurrentMonth,selectedDate,setSel
 
                 {/* its showing todays day details and on clicking this you can view the month calandar */}
 
-                <Text fontSize={'x-large'} p={2}
+                <Text fontSize={['lg','lg','x-large']} p={2}
                     borderRadius={5}
                     cursor={'pointer'}
                     _hover={{ backgroundColor: 'gray.50' }}
@@ -117,7 +118,7 @@ setSelectedDate={setSelectedDate}
         </Box>
 
         {/* all day events of the day are showing here  */}
-        <Box borderBottom={'1px solid gray'} pb={5}>
+        <Box w={'100%'} borderBottom={'1px solid gray'} pb={5}>
         <Box display={'flex'}
         flexDir={'column'}
         alignItems={'center'}
