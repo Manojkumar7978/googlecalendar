@@ -30,17 +30,17 @@ const events = [
     type: 'all-day',
     holiday: true
   },
-  {
-    id: 4,
-    title: 'Morning Meeting',
-    start: new Date(2024, 1, 16, 9, 0, 0),
-    end: new Date(2024, 1, 16, 10, 0, 0),
-    private: false,
-    type: 'stretching',
-    holiday: false,
-    url: "www.abc.in",
-    description: "ABC"
-  },
+  // {
+  //   id: 4,
+  //   title: 'Morning Meeting',
+  //   start: new Date(2024, 1, 18, 9, 0, 0),
+  //   end: new Date(2024, 1, 18, 10, 0, 0),
+  //   private: false,
+  //   type: 'stretching',
+  //   holiday: false,
+  //   url: "www.abc.in",
+  //   description: "ABC"
+  // },
   {
     id: 5,
     title: 'Lunch Break',

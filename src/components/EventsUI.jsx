@@ -85,7 +85,6 @@ export const EventsUI = ({ selectedDate }) => {
       setTime(currentTime())
   }, 1000);
 
-  const data = [...events]
 
 
 
@@ -116,7 +115,7 @@ export const EventsUI = ({ selectedDate }) => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  {data.map((event, index) => (
+                  {events.map((event, index) => (
                     event.type !== "all-day" && (
                       <Draggable
                         key={event.type}
