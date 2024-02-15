@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Box, Divider, Flex, Heading, Text, chakra, useDisclosure } from "@chakra-ui/react";
 import events from '../db';
 import dayjs from 'dayjs';
@@ -86,66 +86,74 @@ export const EventsUI = ({ selectedDate }) => {
   }, 1000);
 
 
-
+  const boxRef = useRef(null);
+  useEffect(() => {
+    // Scroll the box by 600px when the component mounts
+    if (boxRef.current) {
+      boxRef.current.scrollTop = 600;
+    }
+  }, []);
 
   return (
-    <Box cursor={'pointer'}
+  <Box h={'500px'} overflowY={'scroll'} ref={boxRef}>
+      <Box cursor={'pointer'}
+      overflow={'scroll'}
+>
 
-    >
-
-      <Flex mt={2} ml={2} position={'relative'}>
-        {/* Y-axis */}
-        <Box >
-          {timeSlots.map((time, index) => (
-            <Box paddingRight={2} key={index} h="60px" textAlign="center" >
-              <Box >{time}</Box>
-            </Box>
-          ))}
+  <Flex mt={2} ml={2} position={'relative'}>
+    {/* Y-axis */}
+    <Box >
+      {timeSlots.map((time, index) => (
+        <Box paddingRight={2} key={index} h="60px" textAlign="center" >
+          <Box >{time}</Box>
         </Box>
-        <Divider orientation='vertical' h='1440px' borderColor={'black'} />
-
-        {/* X-axis */}
-        <Box flex={1}>
-          <DragDropContext >
-            <Droppable droppableId="droppable">
-              {(provided) => (
-                <Box
-                  flex="1"
-                  position="relative"
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  {events.map((event, index) => (
-                    event.type !== "all-day" && (
-                      <Draggable
-                        key={event.type}
-                        draggableId={`draggable-${index}`}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <Event
-                            provided={provided}
-                            key={index}
-                            selectedDate={selectedDate}
-                            event={event}
-                          />
-                        )}
-                      </Draggable>
-                    )
-                  ))}
-                  {provided.placeholder}
-                </Box>
-              )}
-            </Droppable>
-
-          </DragDropContext>
-          {
-            selectedDate.isSame(dayjs(), "day") && <Divider border={'1px'} w={'95%'} borderColor={'red'} position={'absolute'} top={time} />
-
-          }
-        </Box>
-      </Flex>
+      ))}
     </Box>
+    <Divider orientation='vertical' h='1440px' borderColor={'black'} />
+
+    {/* X-axis */}
+    <Box flex={1}>
+      <DragDropContext >
+        <Droppable droppableId="droppable">
+          {(provided) => (
+            <Box
+              flex="1"
+              position="relative"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {events.map((event, index) => (
+                event.type !== "all-day" && (
+                  <Draggable
+                    key={event.type}
+                    draggableId={`draggable-${index}`}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <Event
+                        provided={provided}
+                        key={index}
+                        selectedDate={selectedDate}
+                        event={event}
+                      />
+                    )}
+                  </Draggable>
+                )
+              ))}
+              {provided.placeholder}
+            </Box>
+          )}
+        </Droppable>
+
+      </DragDropContext>
+      {
+        selectedDate.isSame(dayjs(), "day") && <Divider border={'1px'} w={['85%','90%','95%']} borderColor={'red'} position={'absolute'} top={time} />
+
+      }
+    </Box>
+  </Flex>
+</Box>
+  </Box>
   );
 };
 

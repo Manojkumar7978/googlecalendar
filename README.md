@@ -56,6 +56,5 @@
 ## resources 
 - 3rd party Libraries
 - Google & Google Calendar
-- Chat GPT AI Tool
 
 
