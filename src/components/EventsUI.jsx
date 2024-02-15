@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Box, Divider, Flex, Heading, Text, chakra, useDisclosure } from "@chakra-ui/react";
 import events from '../db';
 import dayjs from 'dayjs';
 import DetailsofEvent from './DetailsofEvent';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 // Define the time slots with a 15-minute gap
 const timeSlots = [];
@@ -28,7 +29,7 @@ const currentTime = () => {
 }
 
 // component to showing events in UI
-const Event = ({ event, selectedDate }) => {
+const Event = ({ event, selectedDate, provided }) => {
   const { start, end, title, url } = event;
   let startTime = start.getHours() * 60
   let endTime = end.getHours() * 60
@@ -61,13 +62,16 @@ const Event = ({ event, selectedDate }) => {
       boxShadow="md"
       p={2}
       onClick={onOpen}
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
     >
-     <Box display={'flex'} gap={5}>
-     <Text fontSize={12}>{`${event.private ? "It's Private" : title}`}</Text>
-      <Text fontSize={12}>{!event.private && `${startTimeString}-${endTimeString}`}</Text>
-     </Box>
+      <Box display={'flex'} gap={5}>
+        <Text fontSize={12}>{`${event.private ? "It's Private" : title}`}</Text>
+        <Text fontSize={12}>{!event.private && `${startTimeString}-${endTimeString}`}</Text>
+      </Box>
       <chakra.a fontSize={12} m={0} href={url}>{!event.private && url}</chakra.a>
-      <DetailsofEvent isOpen={isOpen} onClose={onClose} event={event}/>
+      <DetailsofEvent isOpen={isOpen} onClose={onClose} event={event} />
 
     </Box>
   );
@@ -81,9 +85,13 @@ export const EventsUI = ({ selectedDate }) => {
       setTime(currentTime())
   }, 1000);
 
+  const data=[...events]
+
+
+
   return (
     <Box cursor={'pointer'}
-    
+
     >
 
       <Flex mt={2} ml={2} position={'relative'}>
@@ -98,17 +106,38 @@ export const EventsUI = ({ selectedDate }) => {
         <Divider orientation='vertical' h='1440px' borderColor={'black'} />
 
         {/* X-axis */}
-        <Box flex="1" position="relative" >
-          {events.map((event, index) => (
-
-            event.type != "all-day" && <Event key={index} selectedDate={selectedDate} event={event} />
-
-          ))}
-          {
-            selectedDate.isSame(dayjs(), "day") && <Divider border={'1px'} borderColor={'red'} position={'absolute'} top={time} />
-
-          }
-        </Box>
+        <DragDropContext >
+          <Droppable droppableId="droppable">
+            {(provided) => (
+              <Box
+                flex="1"
+                position="relative"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {data.map((event, index) => (
+                  event.type !== "all-day" && (
+                    <Draggable
+                      key={event.type}
+                      draggableId={`draggable-${index}`} 
+                      index={index}
+                    >
+                      {(provided) => (
+                        <Event
+                          provided={provided}
+                          key={index}
+                          selectedDate={selectedDate}
+                          event={event}
+                        />
+                      )}
+                    </Draggable>
+                  )
+                ))}
+                {provided.placeholder}
+              </Box>
+            )}
+          </Droppable>
+        </DragDropContext>
       </Flex>
     </Box>
   );

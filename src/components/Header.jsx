@@ -82,7 +82,11 @@ export default function Header({currentMonth,setCurrentMonth,selectedDate,setSel
             </Box>
             <Box display={'flex'} gap={7} alignItems={'center'}>
                 {/* on clicking this button you can navigate to todays events */}
-                <Button variant='outline'>Today</Button>
+                <Button variant='outline' 
+                onClick={()=>{
+                    setSelectedDate(dayjs())
+                }}
+                >Today</Button>
 
                 {/* on clicking these below tow icon you can navitgate to previous day event and upcoming day event  */}
                 <ChevronLeftIcon w={7} h={7} borderRadius={50}
