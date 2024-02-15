@@ -85,7 +85,7 @@ export const EventsUI = ({ selectedDate }) => {
       setTime(currentTime())
   }, 1000);
 
-  const data=[...events]
+  const data = [...events]
 
 
 
@@ -106,38 +106,45 @@ export const EventsUI = ({ selectedDate }) => {
         <Divider orientation='vertical' h='1440px' borderColor={'black'} />
 
         {/* X-axis */}
-        <DragDropContext >
-          <Droppable droppableId="droppable">
-            {(provided) => (
-              <Box
-                flex="1"
-                position="relative"
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {data.map((event, index) => (
-                  event.type !== "all-day" && (
-                    <Draggable
-                      key={event.type}
-                      draggableId={`draggable-${index}`} 
-                      index={index}
-                    >
-                      {(provided) => (
-                        <Event
-                          provided={provided}
-                          key={index}
-                          selectedDate={selectedDate}
-                          event={event}
-                        />
-                      )}
-                    </Draggable>
-                  )
-                ))}
-                {provided.placeholder}
-              </Box>
-            )}
-          </Droppable>
-        </DragDropContext>
+        <Box flex={1}>
+          <DragDropContext >
+            <Droppable droppableId="droppable">
+              {(provided) => (
+                <Box
+                  flex="1"
+                  position="relative"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {data.map((event, index) => (
+                    event.type !== "all-day" && (
+                      <Draggable
+                        key={event.type}
+                        draggableId={`draggable-${index}`}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <Event
+                            provided={provided}
+                            key={index}
+                            selectedDate={selectedDate}
+                            event={event}
+                          />
+                        )}
+                      </Draggable>
+                    )
+                  ))}
+                  {provided.placeholder}
+                </Box>
+              )}
+            </Droppable>
+
+          </DragDropContext>
+          {
+            selectedDate.isSame(dayjs(), "day") && <Divider border={'1px'} w={'95%'} borderColor={'red'} position={'absolute'} top={time} />
+
+          }
+        </Box>
       </Flex>
     </Box>
   );

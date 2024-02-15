@@ -18,7 +18,7 @@ function App() {
         setCurrentMonth={setCurrentMonth} />
       <Box p={5} >
         <Box>
-        <EventsUI selectedDate={selectedDate}/>
+          <EventsUI selectedDate={selectedDate} />
         </Box>
 
       </Box>
